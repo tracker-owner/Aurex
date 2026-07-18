@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcanum — OSINT & Recon Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-layer">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="grid-bg"></div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="noise"></div>
+
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>
+            </svg>
+          </div>
+          Arcanum
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-title" data-i18n="nav_modules">Модули разведки</div>
+          <a class="nav-item active" data-view="breach">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span data-i18n="nav_breach">Поиск утечек</span>
+          </a>
+          <a class="nav-item" data-view="domain">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span data-i18n="nav_domain">Анализ доменов</span>
+          </a>
+          <a class="nav-item" data-view="ip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><path d="M12 8v4M5 16v-2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/></svg>
+            <span data-i18n="nav_ip">IP Инфраструктура</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <div class="nav-title" data-i18n="nav_system">Система</div>
+          <a class="nav-item" id="paymentsNavBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <span data-i18n="nav_payments">Покупки</span>
+          </a>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="lang-switcher">
+            <button class="lang-btn active" id="langRuBtn">RU</button>
+            <button class="lang-btn" id="langEnBtn">EN</button>
+          </div>
+          <div class="sys-stats">
+            <div class="sys-stat"><div class="label">CPU</div><div class="val" id="cpuVal">--</div></div>
+            <div class="sys-stat"><div class="label">PING</div><div class="val accent" id="pingVal">--</div></div>
+          </div>
+          <div class="sidebar-status">
+            <span>v3.1.0</span>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="status-dot" id="statusDot"></span>
+              <span id="statusText">CHECKING</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main-area">
+        <main class="main">
+          <header class="topbar">
+            <div class="breadcrumb">
+              <span>arcanum</span><span>/</span><span class="current" id="breadcrumbView">breach_search</span>
+            </div>
+            <div class="topbar-actions">
+              <div class="credits-box" id="creditsBox" style="display: none;">
+                <span class="label" data-i18n="credits">Кредиты</span><span class="val" id="creditsVal">0</span>
+              </div>
+              <button class="topbar-btn" id="accountBtn" style="display: none;" data-i18n="account">Аккаунт</button>
+              <button class="topbar-btn auth-btn" id="logoutBtn" style="display: none;" data-i18n="logout">Выйти</button>
+              <button class="topbar-btn" id="loginBtn" data-i18n="login">Вход</button>
+              <button class="topbar-btn auth-btn" id="registerBtn" data-i18n="register">Регистрация</button>
+            </div>
+          </header>
+
+          <section class="view active" id="view-breach">
+            <div class="hero">
+              <div class="hero-badge"><span class="dot"></span><span data-i18n="hero_badge_breach">14.8 МЛРД ЗАПИСЕЙ · РЕАЛЬНОЕ ВРЕМЯ</span></div>
+              <h1 data-i18n="hero_title_breach">Поиск по <span class="accent">утечкам баз данных</span><br>в реальном времени.</h1>
+              <p class="hero-sub" data-i18n="hero_sub_breach">Arcanum выполняет одновременные запросы через движок OSIntcat для анализа цифрового следа.</p>
+            </div>
+            <form class="search-form" id="form-breach">
+              <div class="form-label">
+                <span class="text" data-i18n="target_query">Целевой запрос</span>
+              </div>
+              <div class="input-wrap">
+                <span class="input-prefix" id="prefix-breach"></span>
+                <input type="text" id="input-breach" class="search-input" placeholder="Введите имя пользователя..." autocomplete="off" spellcheck="false" maxlength="100">
+                <button type="submit" class="execute-btn" id="exec-btn-breach">
+                  <span class="spinner"></span><span class="btn-text" data-i18n="execute">Выполнить</span>
+                </button>
+              </div>
+              <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
+              <div class="types-section">
+                <div class="section-label" data-i18n="filter_type">Фильтр по типу</div>
+                <div class="types-grid" id="types-breach">
+                  <button type="button" class="type-btn active" data-type="username">Username</button>
+                  <button type="button" class="type-btn" data-type="email">Email</button>
+                  <button type="button" class="type-btn" data-type="name" data-i18n="type_name">ФИО</button>
+                  <button type="button" class="type-btn" data-type="password">Password</button>
+                  <button type="button" class="type-btn" data-type="phone">Phone</button>
+                  <button type="button" class="type-btn" data-type="telegram">Telegram</button>
+                  <button type="button" class="type-btn" data-type="ip">IP Address</button>
+                  <button type="button" class="type-btn" data-type="mcuuid">Minecraft UUID</button>
+                  <button type="button" class="type-btn" data-type="steamid">Steam ID</button>
+                  <button type="button" class="type-btn" data-type="discord">Discord ID</button>
+                </div>
+              </div>
+            </form>
+            <div class="workspace-left">
+              <div class="section-header">
+                <div class="section-title"><span data-i18n="results">Результаты поиска</span> <span class="count" id="count-breach">0 / 0</span></div>
+              </div>
+              <div class="results-list" id="results-breach">
+                <div class="results-empty"><div class="title" data-i18n="no_probes">Запросы не выполнялись</div><div class="desc" data-i18n="no_probes_desc">Введите запрос выше и нажмите «Выполнить».</div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="view-domain">
+             <div class="hero"><div class="hero-badge"><span class="dot"></span><span data-i18n="hero_badge_domain">ПАССИВНЫЙ DNS · WHOIS · ПОДДОМЕНЫ</span></div><h1 data-i18n="hero_title_domain">Перечисление <span class="accent">инфраструктуры домена</span><br>за секунды.</h1></div>
+            <form class="search-form" id="form-domain">
+              <div class="form-label"><span class="text" data-i18n="target_domain">Целевой домен</span></div>
+              <div class="input-wrap">
+                <span class="input-prefix">https://</span><input type="text" id="input-domain" class="search-input" placeholder="example.com" autocomplete="off" spellcheck="false" maxlength="100">
+                <button type="submit" class="execute-btn" id="exec-btn-domain"><span class="btn-text" data-i18n="resolve">Найти</span></button>
+              </div>
+              <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
+            </form>
+            <div class="workspace-left"><div class="results-list" id="results-domain"><div class="results-empty"><div class="title" data-i18n="awaiting_target">Ожидание цели</div></div></div></div>
+          </section>
+
+          <section class="view" id="view-ip">
+             <div class="hero"><div class="hero-badge"><span class="dot"></span><span data-i18n="hero_badge_ip">ASN · ПОРТЫ · ГЕОЛОКАЦИЯ</span></div><h1 data-i18n="hero_title_ip">Анализ <span class="accent">IP инфраструктуры</span><br>в масштабе.</h1></div>
+            <form class="search-form" id="form-ip">
+              <div class="form-label"><span class="text" data-i18n="target_ip">Целевой IP</span></div>
+              <div class="input-wrap">
+                <span class="input-prefix">ip://</span><input type="text" id="input-ip" class="search-input" placeholder="8.8.8.8" autocomplete="off" spellcheck="false" maxlength="45">
+                <button type="submit" class="execute-btn" id="exec-btn-ip"><span class="btn-text" data-i18n="scan">Сканировать</span></button>
+              </div>
+              <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
+            </form>
+            <div class="workspace-left"><div class="results-list" id="results-ip"><div class="results-empty"><div class="title" data-i18n="awaiting_target">Ожидание цели</div></div></div></div>
+          </section>
+
+        </main>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
+      <div class="modal modal-sm">
+        <button class="modal-close" id="authModalClose">X</button>
+        <div class="modal-header">
+          <h2 id="authModalTitle" data-i18n="login">Вход</h2>
+          <p id="authModalSub" data-i18n="auth_welcome">С возвращением. Пожалуйста, введите данные.</p>
+        </div>
+        <form class="auth-form" id="authForm">
+          <div class="form-group" id="emailGroup" style="display: none;">
+            <label data-i18n="email">Почта</label>
+            <input type="email" class="form-input" id="authEmail" placeholder="user@gmail.com" maxlength="50">
+          </div>
+          <div class="form-group">
+            <label data-i18n="username">Имя пользователя</label>
+            <input type="text" class="form-input" id="authUser" maxlength="50">
+          </div>
+          <div class="form-group">
+            <label data-i18n="password">Пароль</label>
+            <input type="password" class="form-input" id="authPass" maxlength="100">
+          </div>
+          <!-- Изменен тип кнопки на button, чтобы избежать конфликтов с формой -->
+          <button type="button" class="auth-submit" id="authSubmit" data-i18n="login">Вход</button>
+          <div class="auth-switch">
+            <span id="authSwitchText" data-i18n="no_account">Нет аккаунта?</span><a id="authSwitchBtn" data-i18n="register">Регистрация</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="pricingModal">
+      <div class="modal">
+        <button class="modal-close" id="pricingModalClose">X</button>
+        <div class="modal-header">
+          <h2 data-i18n="upgrade_plan">Улучшить тариф</h2>
+          <p data-i18n="upgrade_desc">Кредиты тратятся за запросы. Тарифы Pro и Enterprise — это подписка на месяц.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="price-card" id="card-free">
+            <h3>Free</h3>
+            <div class="price">$0 <span data-i18n="one_time">Единоразово</span></div>
+            <ul>
+              <li data-i18n="free_f1">10 кредитов каждый день</li>
+              <li data-i18n="free_f2">10 кредитов за один поиск</li>
+              <li data-i18n="free_f3">Базовый поиск утечек</li>
+              <li data-i18n="free_f4">Community support</li>
+            </ul>
+            <button class="buy-btn current" data-plan="free" data-i18n="current_plan">Текущий тариф</button>
+          </div>
+          <div class="price-card featured" id="card-pro">
+            <h3>Pro</h3>
+            <div class="price">$9.99 <span data-i18n="per_month">/ в месяц</span></div>
+            <ul>
+              <li data-i18n="pro_f1">1000 кредитов сразу</li>
+              <li data-i18n="pro_f2">+50 кредитов каждый день</li>
+              <li data-i18n="pro_f3">Кастомный API ключ</li>
+              <li data-i18n="pro_f5">DNS, WHOIS, IP Инфраструктура</li>
+            </ul>
+            <button class="buy-btn featured" data-plan="pro" data-i18n="buy_pro">Купить Pro</button>
+          </div>
+          <div class="price-card" id="card-ent">
+            <h3>Enterprise</h3>
+            <div class="price">$49.99 <span data-i18n="per_month">/ в месяц</span></div>
+            <ul>
+              <li data-i18n="ent_f1">Безлимит кредитов (∞)</li>
+              <li data-i18n="ent_f2">Кастомный API ключ</li>
+              <li data-i18n="ent_f3">Вебхуки и массовый экспорт</li>
+              <li data-i18n="ent_f4">Реальный мониторинг 24/7</li>
+              <li data-i18n="ent_f5">Приоритетная поддержка</li>
+            </ul>
+            <button class="buy-btn" data-plan="ent" data-i18n="buy_ent">Купить Enterprise</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"><span id="toastText"></span></div>
+    <script src="js/app.js"></script>
+</body>
+</html>
