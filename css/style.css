@@ -48,7 +48,6 @@ body { background: var(--bg); color: var(--fg); font-family: 'Inter', system-ui,
 
 .main-area { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 .main { padding: 24px 48px 32px; flex: 1; overflow-y: auto; max-width: 1600px; width: 100%; margin: 0 auto; }
-/* УБРАН ЧЕРНЫЙ ФОН ШАПКИ */
 .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; gap: 16px; position: sticky; top: 0; z-index: 10; padding-bottom: 16px; background: transparent; }
 .breadcrumb { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
 .breadcrumb .current { color: var(--fg); }
@@ -99,7 +98,6 @@ body { background: var(--bg); color: var(--fg); font-family: 'Inter', system-ui,
 .result-card-header { color: var(--accent); font-weight: 600; margin-bottom: 10px; font-size: 13px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
 .result-card-body { display: flex; flex-direction: column; gap: 0; }
 
-/* РАЗДЕЛИТЕЛЬ ТЕПЕРЬ МЕЖДУ ЗАПИСЯМИ (КРУПНЫМИ КУСКАМИ) */
 .record-block { padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 .record-block:last-child { border-bottom: none; padding-bottom: 0; }
 .record-block:first-child { padding-top: 0; }
