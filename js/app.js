@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toast = $('toast');
     const toastText = $('toastText');
 
-    let currentUser = JSON.parse(localStorage.getItem('aurex_user')) || null;
+    let currentUser = JSON.parse(localStorage.getItem('arcanum_user')) || null;
     let currentSearchType = 'username'; 
 
     function escapeHtml(text) {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.ok) {
                     if (authMode === 'login') {
                         currentUser = data.user;
-                        localStorage.setItem('aurex_user', JSON.stringify(currentUser));
+                        localStorage.setItem('arcanum_user', JSON.stringify(currentUser));
                         showToast('Welcome back, ' + username + '!', 'success');
                         if (authModal) authModal.classList.remove('show');
                     } else {
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($('logoutBtn')) {
         $('logoutBtn').addEventListener('click', () => {
             currentUser = null;
-            localStorage.removeItem('aurex_user');
+            localStorage.removeItem('arcanum_user');
             updateAuthUI();
             showToast('Logged out', 'success');
         });
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (res.ok) {
                     currentUser.plan = data.plan;
                     currentUser.credits = data.credits;
-                    localStorage.setItem('aurex_user', JSON.stringify(currentUser));
+                    localStorage.setItem('arcanum_user', JSON.stringify(currentUser));
                     updateAuthUI();
                     updatePricingButtons();
                     showToast('Payment successful!', 'success');
@@ -279,11 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const btn = $(`exec-btn-${viewName}`);
         const resultsList = $(`results-${viewName}`);
-        const countEl = $(`count-${viewName}`);
+        const countEl = $(`count-${viewName}`); 
         
         if (btn) btn.classList.add('loading');
         if (resultsList) resultsList.innerHTML = '<div class="results-empty">Scanning...</div>';
-        if (countEl) countEl.textContent = '0 / 0';
+        if (countEl) countEl.textContent = '0 / 0'; 
 
         try {
             const res = await fetch('/api/search', {
@@ -326,12 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 if (resultsList) resultsList.innerHTML = '<div class="results-empty">No records found.</div>';
-                if (countEl) countEl.textContent = '0 / 0';
+                if (countEl) countEl.textContent = '0 / 0'; 
             }
 
             if (currentUser.plan !== 'enterprise') {
                 currentUser.credits -= 10;
-                localStorage.setItem('aurex_user', JSON.stringify(currentUser));
+                localStorage.setItem('arcanum_user', JSON.stringify(currentUser));
                 updateAuthUI();
             }
         } catch (err) {
