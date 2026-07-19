@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcanum — OSINT & Recon Engine</title>
+    <title>Aurex — OSINT Engine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
               <circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>
             </svg>
           </div>
-          Arcanum
+          Aurex
         </div>
 
         <div class="nav-group">
@@ -76,7 +76,7 @@
         <main class="main">
           <header class="topbar">
             <div class="breadcrumb">
-              <span>arcanum</span><span>/</span><span class="current" id="breadcrumbView">breach_search</span>
+              <span>aurex</span><span>/</span><span class="current" id="breadcrumbView">breach_search</span>
             </div>
             <div class="topbar-actions">
               <div class="credits-box" id="creditsBox" style="display: none;">
@@ -93,18 +93,14 @@
             <div class="hero">
               <div class="hero-badge"><span class="dot"></span><span data-i18n="hero_badge_breach">14.8 МЛРД ЗАПИСЕЙ · РЕАЛЬНОЕ ВРЕМЯ</span></div>
               <h1 data-i18n="hero_title_breach">Поиск по <span class="accent">утечкам баз данных</span><br>в реальном времени.</h1>
-              <p class="hero-sub" data-i18n="hero_sub_breach">Arcanum выполняет одновременные запросы через движок OSIntcat для анализа цифрового следа.</p>
+              <p class="hero-sub" data-i18n="hero_sub_breach"></p>
             </div>
             <form class="search-form" id="form-breach">
-              <div class="form-label">
-                <span class="text" data-i18n="target_query">Целевой запрос</span>
-              </div>
+              <div class="form-label"><span class="text" data-i18n="target_query">Целевой запрос</span></div>
               <div class="input-wrap">
                 <span class="input-prefix" id="prefix-breach"></span>
-                <input type="text" id="input-breach" class="search-input" placeholder="Введите имя пользователя..." autocomplete="off" spellcheck="false" maxlength="100">
-                <button type="submit" class="execute-btn" id="exec-btn-breach">
-                  <span class="spinner"></span><span class="btn-text" data-i18n="execute">Выполнить</span>
-                </button>
+                <input type="text" id="input-breach" class="search-input" placeholder="Введите имя пользователя..." autocomplete="off" spellcheck="false">
+                <button type="submit" class="execute-btn" id="exec-btn-breach"><span class="spinner"></span><span class="btn-text" data-i18n="execute">Выполнить</span></button>
               </div>
               <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
               <div class="types-section">
@@ -124,12 +120,8 @@
               </div>
             </form>
             <div class="workspace-left">
-              <div class="section-header">
-                <div class="section-title"><span data-i18n="results">Результаты поиска</span> <span class="count" id="count-breach">0 / 0</span></div>
-              </div>
-              <div class="results-list" id="results-breach">
-                <div class="results-empty"><div class="title" data-i18n="no_probes">Запросы не выполнялись</div><div class="desc" data-i18n="no_probes_desc">Введите запрос выше и нажмите «Выполнить».</div></div>
-              </div>
+              <div class="section-header"><div class="section-title"><span data-i18n="results">Результаты поиска</span> <span class="count" id="count-breach">0 / 0</span></div></div>
+              <div class="results-list" id="results-breach"><div class="results-empty"><div class="title" data-i18n="no_probes">Запросы не выполнялись</div><div class="desc" data-i18n="no_probes_desc">Введите запрос выше и нажмите «Выполнить».</div></div></div>
             </div>
           </section>
 
@@ -138,7 +130,7 @@
             <form class="search-form" id="form-domain">
               <div class="form-label"><span class="text" data-i18n="target_domain">Целевой домен</span></div>
               <div class="input-wrap">
-                <span class="input-prefix">https://</span><input type="text" id="input-domain" class="search-input" placeholder="example.com" autocomplete="off" spellcheck="false" maxlength="100">
+                <span class="input-prefix">https://</span><input type="text" id="input-domain" class="search-input" placeholder="example.com">
                 <button type="submit" class="execute-btn" id="exec-btn-domain"><span class="btn-text" data-i18n="resolve">Найти</span></button>
               </div>
               <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
@@ -151,14 +143,13 @@
             <form class="search-form" id="form-ip">
               <div class="form-label"><span class="text" data-i18n="target_ip">Целевой IP</span></div>
               <div class="input-wrap">
-                <span class="input-prefix">ip://</span><input type="text" id="input-ip" class="search-input" placeholder="8.8.8.8" autocomplete="off" spellcheck="false" maxlength="45">
+                <span class="input-prefix">ip://</span><input type="text" id="input-ip" class="search-input" placeholder="8.8.8.8">
                 <button type="submit" class="execute-btn" id="exec-btn-ip"><span class="btn-text" data-i18n="scan">Сканировать</span></button>
               </div>
               <div class="search-cost" data-i18n="search_cost">10 кредитов за один поиск</div>
             </form>
             <div class="workspace-left"><div class="results-list" id="results-ip"><div class="results-empty"><div class="title" data-i18n="awaiting_target">Ожидание цели</div></div></div></div>
           </section>
-
         </main>
       </div>
     </div>
@@ -173,17 +164,16 @@
         <form class="auth-form" id="authForm">
           <div class="form-group" id="emailGroup" style="display: none;">
             <label data-i18n="email">Почта</label>
-            <input type="email" class="form-input" id="authEmail" placeholder="user@gmail.com" maxlength="50">
+            <input type="email" class="form-input" id="authEmail" placeholder="user@gmail.com">
           </div>
           <div class="form-group">
             <label data-i18n="username">Имя пользователя</label>
-            <input type="text" class="form-input" id="authUser" maxlength="50">
+            <input type="text" class="form-input" id="authUser">
           </div>
           <div class="form-group">
             <label data-i18n="password">Пароль</label>
-            <input type="password" class="form-input" id="authPass" maxlength="100">
+            <input type="password" class="form-input" id="authPass">
           </div>
-          <!-- Изменен тип кнопки на button, чтобы избежать конфликтов с формой -->
           <button type="button" class="auth-submit" id="authSubmit" data-i18n="login">Вход</button>
           <div class="auth-switch">
             <span id="authSwitchText" data-i18n="no_account">Нет аккаунта?</span><a id="authSwitchBtn" data-i18n="register">Регистрация</a>
@@ -201,37 +191,18 @@
         </div>
         <div class="pricing-grid">
           <div class="price-card" id="card-free">
-            <h3>Free</h3>
-            <div class="price">$0 <span data-i18n="one_time">Единоразово</span></div>
-            <ul>
-              <li data-i18n="free_f1">10 кредитов каждый день</li>
-              <li data-i18n="free_f2">10 кредитов за один поиск</li>
-              <li data-i18n="free_f3">Базовый поиск утечек</li>
-              <li data-i18n="free_f4">Community support</li>
-            </ul>
+            <h3>Free</h3><div class="price">$0 <span data-i18n="one_time">Единоразово</span></div>
+            <ul><li data-i18n="free_f1">10 кредитов каждый день</li><li data-i18n="free_f2">10 кредитов за один поиск</li></ul>
             <button class="buy-btn current" data-plan="free" data-i18n="current_plan">Текущий тариф</button>
           </div>
           <div class="price-card featured" id="card-pro">
-            <h3>Pro</h3>
-            <div class="price">$9.99 <span data-i18n="per_month">/ в месяц</span></div>
-            <ul>
-              <li data-i18n="pro_f1">1000 кредитов сразу</li>
-              <li data-i18n="pro_f2">+50 кредитов каждый день</li>
-              <li data-i18n="pro_f3">Кастомный API ключ</li>
-              <li data-i18n="pro_f5">DNS, WHOIS, IP Инфраструктура</li>
-            </ul>
+            <h3>Pro</h3><div class="price">$9.99 <span data-i18n="per_month">/ в месяц</span></div>
+            <ul><li data-i18n="pro_f1">1000 кредитов сразу</li><li data-i18n="pro_f2">+50 кредитов каждый день</li></ul>
             <button class="buy-btn featured" data-plan="pro" data-i18n="buy_pro">Купить Pro</button>
           </div>
           <div class="price-card" id="card-ent">
-            <h3>Enterprise</h3>
-            <div class="price">$49.99 <span data-i18n="per_month">/ в месяц</span></div>
-            <ul>
-              <li data-i18n="ent_f1">Безлимит кредитов (∞)</li>
-              <li data-i18n="ent_f2">Кастомный API ключ</li>
-              <li data-i18n="ent_f3">Вебхуки и массовый экспорт</li>
-              <li data-i18n="ent_f4">Реальный мониторинг 24/7</li>
-              <li data-i18n="ent_f5">Приоритетная поддержка</li>
-            </ul>
+            <h3>Enterprise</h3><div class="price">$49.99 <span data-i18n="per_month">/ в месяц</span></div>
+            <ul><li data-i18n="ent_f1">Безлимит кредитов (∞)</li><li data-i18n="ent_f2">Кастомный API ключ</li></ul>
             <button class="buy-btn" data-plan="ent" data-i18n="buy_ent">Купить Enterprise</button>
           </div>
         </div>
